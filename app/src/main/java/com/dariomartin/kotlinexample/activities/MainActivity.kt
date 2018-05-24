@@ -4,15 +4,13 @@ import android.content.Context
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import com.dariomartin.kotlinexample.R
 import com.dariomartin.kotlinexample.adapters.ForecastListAdapter
+import com.dariomartin.kotlinexample.domain.commands.RequestForecastCommand
 import kotlinx.android.synthetic.main.activity_main.*
-
-val ViewGroup.childViews: List<View>
-    get() = (0 until childCount).map { getChildAt(it) }
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 
 fun Context.toast(message: CharSequence, duration: Int = Toast.LENGTH_SHORT) {
     Toast.makeText(this, message, duration).show();
@@ -34,15 +32,14 @@ class MainActivity : AppCompatActivity() {
                 "Sun 6/29 - Coudy - 15/20"
         )
 
+        val zipcode = "94043"
+
         forecast_list.layoutManager = LinearLayoutManager(this)
-        forecast_list.adapter = ForecastListAdapter(list)
 
-
-
-        toast("Toast de prueba")
-
-        forecast_list.childViews
-
+        doAsync {
+            val result = RequestForecastCommand(zipcode).execute()
+            uiThread { forecast_list.adapter = ForecastListAdapter(result)}
+        }
 
     }
 }
