@@ -38,7 +38,9 @@ class MainActivity : AppCompatActivity() {
 
         doAsync {
             val result = RequestForecastCommand(zipcode).execute()
-            uiThread { forecast_list.adapter = ForecastListAdapter(result)}
+            uiThread {
+                forecast_list.adapter = ForecastListAdapter(result) { toast(it.date) }
+            }
         }
 
     }

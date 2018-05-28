@@ -12,7 +12,7 @@ class RequestForecastCommand(private val zipcode:String): Command<ForecastList> 
 
     override fun execute(): ForecastList {
         val forecastRequest = Request(zipcode)
-        return ForecastDataMapper().converFromDataModel(forecastRequest.execute())
+        return ForecastDataMapper().convertFromDataModel(forecastRequest.execute())
     }
 
 }
