@@ -34,12 +34,12 @@ class MainActivity : AppCompatActivity() {
 
         val zipcode = "94043"
 
-        forecast_list.layoutManager = LinearLayoutManager(this)
+        forecastList.layoutManager = LinearLayoutManager(this)
 
         doAsync {
             val result = RequestForecastCommand(zipcode).execute()
             uiThread {
-                forecast_list.adapter = ForecastListAdapter(result) { toast(it.date) }
+                forecastList.adapter = ForecastListAdapter(result) { toast(it.date) }
             }
         }
 
